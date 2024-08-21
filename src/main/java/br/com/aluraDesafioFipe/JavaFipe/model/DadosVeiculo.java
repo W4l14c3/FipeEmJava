@@ -8,23 +8,23 @@ public record DadosVeiculo(@JsonAlias("TipoVeiculo")int  tipoVeiculo,
                            @JsonAlias("Valor") String valor,
                            @JsonAlias("Marca") String marca,
                            @JsonAlias("Modelo") String modelo,
-                           @JsonAlias("AnoModelo") Date anoModelo,
+                           @JsonAlias("AnoModelo") String anoModelo,
                            @JsonAlias("Combustivel") String combustivel,
                            @JsonAlias("CodigoFipe") String codigoFipe,
                            @JsonAlias("MesReferencia") String mesReferencia,
                            @JsonAlias("SiglaCombustivel") String siglaCombustivel) {
     @Override
     public String toString() {
-        return "DadosVeiculo{" +
-                "tipoVeiculo=" + tipoVeiculo +
-                ", valor='" + valor + '\'' +
-                ", marca='" + marca + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", anoModelo=" + anoModelo +
-                ", combustivel='" + combustivel + '\'' +
-                ", codigoFipe='" + codigoFipe + '\'' +
-                ", mesReferencia='" + mesReferencia + '\'' +
-                ", siglaCombustivel='" + siglaCombustivel + '\'' +
-                '}';
+        return """
+                Tipo Veiculo: %d
+                Valor: %s
+                Marca: %s
+                Modelo: %s
+                AnoModelo %s
+                Combustivel %s
+                CodigoFipe %s
+                MesReferenncia %s
+                SiglaCombustivel %s
+                """.formatted(tipoVeiculo, valor, marca, modelo, anoModelo, combustivel, codigoFipe, mesReferencia, siglaCombustivel);
     }
 }

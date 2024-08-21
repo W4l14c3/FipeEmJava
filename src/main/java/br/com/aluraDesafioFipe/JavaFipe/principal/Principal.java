@@ -1,8 +1,6 @@
 package br.com.aluraDesafioFipe.JavaFipe.principal;
 
-import br.com.aluraDesafioFipe.JavaFipe.model.DadosMM;
-import br.com.aluraDesafioFipe.JavaFipe.model.MarcaModelo;
-import br.com.aluraDesafioFipe.JavaFipe.model.Modelos;
+import br.com.aluraDesafioFipe.JavaFipe.model.*;
 import br.com.aluraDesafioFipe.JavaFipe.service.ConsumindoApi;
 import br.com.aluraDesafioFipe.JavaFipe.service.Conversor;
 
@@ -61,6 +59,7 @@ public class Principal {
             int buscandoMarca = buscar.nextInt();
             var verificandoMarca = marca.stream()
                     .filter(m -> m.codigo() == buscandoMarca)
+                    .peek(m -> System.out.println("Codigo filtrado: " + m.codigo()))
                     .findFirst();
 
             if (verificandoMarca.isPresent()){
@@ -92,7 +91,24 @@ public class Principal {
                 m.nome()))
                 .forEach(System.out::println);
 
-        System.out.println("Digite o codigo do modelo");
+        System.out.println("Digite o codigo do modelo que deseja consultar: ");
+        int codigoModel = buscar.nextInt();
+        endereco = endereco + "/" + codigoModel + "/anos";
+        json = consumindoApi.buscarDados(endereco);
+        System.out.println("Anos disponiveis para consulta:");
+        var anosEncontrados = conversor.obterLista(json, DadosAno.class);
+        anosEncontrados.stream()
+                .sorted(Comparator.comparing(DadosAno::ano))
+                .map(d -> new MarcaModelo(d.codigoAno(), d.ano()))
+                .forEach(d -> System.out.println("CodAno:" + d.getCodigoAno() + " Ano: "+d.getAno()));
+
+        System.out.println("Agora informe o CodAno para verificar as informações do veiculo.:");
+        String codAno = buscar.next();
+        endereco = endereco + "/" + codAno;
+        json = consumindoApi.buscarDados(endereco);
+        System.out.println("Descrição do veiculo selecionado:");
+        var descVeiculo = conversor.obterDados(json, DadosVeiculo.class);
+        System.out.println(descVeiculo);
 
 
     }
